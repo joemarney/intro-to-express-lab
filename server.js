@@ -45,9 +45,9 @@ const shoes = [
   { name: "Jet Boots", price: 1000, type: "boot" },
   { name: "Fifty-Inch Heels", price: 175, type: "heel" },
 ];
-app.get("/shoes", (req, res) => {
-  res.send(shoes);
-});
+// app.get("/shoes", (req, res) => {
+//   res.send(shoes);
+// });
 
 // const filteredByType = shoes.filter((item) => item.type === req.query.q);
 // return res.send(filteredByType);
@@ -57,3 +57,25 @@ app.get("/shoes", (req, res) => {
 
 // const filteredByMinPrice = shoes.filter((item) => item.price < req.query.q);
 // return res.send(filteredByMinPrice);
+
+// Solution from Sam
+
+app.get("/shoes", (req, res) => {
+  const minPrice = req.query["min-price"];
+  const maxPrice = req.query["max-price"];
+  const type = req.query.type;
+
+  const filtered = shoes.filter((shoe) => {
+    // excludes shoes below a specified price
+
+    // excludes shoes above a specified price
+
+    // includes shoes of a specified type
+    return (
+      !(minPrice && shoe.price < minPrice) && // checks to see if the statement is invalid
+      !(maxPrice && shoe.price > maxPrice) &&
+      !(type && shoe.type !== type)
+    );
+  });
+  return res.send(filtered);
+});
